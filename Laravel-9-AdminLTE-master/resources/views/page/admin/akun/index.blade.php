@@ -94,7 +94,7 @@
                     },
                     "columns": [
                         {
-                            "data": "area_cavling" // ubah disini ya jing
+                            "data": "area_kavling" // ubah disini ya jing
                         }, {
                             "data": "harga"
                         }, {

@@ -19,7 +19,7 @@ class KavlingController extends Controller
         $totalDataRecord = Kavling::count();
         $limit_val = $request->input('length');
         $start_val = $request->input('start');
-        $order_val = 'area_cavling'; // Misalnya, Anda ingin mengurutkan berdasarkan area_cavling secara default
+        $order_val = 'area_kavling'; // Misalnya, Anda ingin mengurutkan berdasarkan area_kavling secara default
         $dir_val = 'asc'; // Atau 'desc' jika ingin mengurutkan secara descending
 
         $kavling_data = Kavling::offset($start_val)
@@ -32,7 +32,7 @@ class KavlingController extends Controller
             foreach ($kavling_data as $kavling_val) {
                 $url = route('kavling.edit', ['id' => $kavling_val->id]);
                 $urlHapus = route('kavling.delete', $kavling_val->id);
-                $kavlingnestedData['area_cavling'] = $kavling_val->area_kavling;
+                $kavlingnestedData['area_kavling'] = $kavling_val->area_kavling;
                 $kavlingnestedData['harga'] = $kavling_val->harga;
                 $kavlingnestedData['status'] = $kavling_val->status;
                 $kavlingnestedData['options'] = "<a href='$url'><i class='fas fa-edit fa-lg'></i></a> <a style='border: none; background-color:transparent;' class='hapusData' data-id='$kavling_val->id' data-url='$urlHapus'><i class='fas fa-trash fa-lg text-danger'></i></a>";

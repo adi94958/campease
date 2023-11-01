@@ -14,6 +14,8 @@ class Kavling extends Model
      *
      * @var array<int, string>
      */
+
+    protected $table = 'data_kavling';
     protected $fillable = [
         'area_kavling',
         'harga',
