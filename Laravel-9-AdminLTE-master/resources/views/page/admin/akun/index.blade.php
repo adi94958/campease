@@ -52,7 +52,7 @@
         </div>
         <div class="card-body p-0" style="margin: 20px">
             <table
-                id="previewAkun"
+                id="previewKavling"
                 class="table table-striped table-bordered display"
                 style="width:100%">
                 <thead>
@@ -81,7 +81,7 @@
     src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script>
     $(document).ready(function () {
-                $('#previewAkun').DataTable({
+                $('#previewKavling').DataTable({
                     "serverSide": true,
                     "processing": true,
                     "ajax": {
@@ -131,9 +131,10 @@
                 });
 
                 // hapus data
-                $('#previewAkun').on('click', '.hapusData', function () {
+                $('#previewKavling').on('click', '.hapusData', function () {
                     var id = $(this).data("id");
                     var url = $(this).data("url");
+                    console.log(url);
                     Swal
                         .fire({
                             title: 'Apa kamu yakin?',
@@ -158,7 +159,7 @@
                                     success: function (response) {
                                         // console.log();
                                         Swal.fire('Terhapus!', response.msg, 'success');
-                                        $('#previewAkun').DataTable().ajax.reload();
+                                        $('#previewKavling').DataTable().ajax.reload();
                                     }
                                 });
                             }

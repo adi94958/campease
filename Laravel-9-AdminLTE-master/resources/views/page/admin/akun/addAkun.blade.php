@@ -21,7 +21,7 @@
 </section>
 
 <!-- Main content -->
-<section class="content">
+<section class="content container">
     @if(session('status'))
     <div class="alert alert-success alert-dismissible">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -32,8 +32,8 @@
     <form method="post" enctype="multipart/form-data">
         @csrf
         <div class="row">
-            <div class="col-md-6 align-items-center">
-                <div class="card card-primary">
+            <div class="col d-flex justify-content-center">
+                <div class="card card-primary w-100 h-100">
                     <div class="card-header">
                         <h3 class="card-title">Informasi Data Diri</h3>
 
@@ -53,7 +53,7 @@
                             <input
                                 type="text"
                                 id="inputAreaKavling"
-                                name="name"
+                                name="area_kavling"
                                 class="form-control @error('name') is-invalid @enderror"
                                 placeholder="Masukkan Nama"
                                 value="{{ old('area_kavling') }}"
@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <label for="inputHarga">Harga</label>
                             <input
-                                type="text"
+                                type="number"
                                 id="inputHarga"
                                 name="harga"
                                 class="form-control @error('harga') is-invalid @enderror"
@@ -108,7 +108,7 @@
         <div class="row">
             <div class="col-12">
                 <a href="{{ route('home') }}" class="btn btn-secondary">Cancel</a>
-                <input type="submit" value="Tambah Akun" class="btn btn-success float-right">
+                <input type="submit" value="Tambah Kavling" class="btn btn-success float-right">
             </div>
         </div>
     </form>
@@ -116,12 +116,4 @@
 <!-- /.content -->
 
 @endsection @section('script_footer')
-<script>
-    inputFoto.onchange = evt => {
-        const [file] = inputFoto.files
-        if (file) {
-            prevImg.src = URL.createObjectURL(file)
-        }
-    }
-</script>
 @endsection

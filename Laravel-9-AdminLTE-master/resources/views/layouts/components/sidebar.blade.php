@@ -14,12 +14,12 @@ $links = [
             [
                 "section_text" => "Data Cavling",
                 "section_icon" => "far fa-circle",
-                "section_href" => route('akun.index')
+                "section_href" => route('kavling.index')
             ],
             [
                 "section_text" => "Tambah Cavling",
                 "section_icon" => "far fa-circle",
-                "section_href" => route('akun.add')
+                "section_href" => route('kavling.add')
             ]
         ]
     ]

@@ -6,6 +6,7 @@ use App\Models\Kavling;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class KavlingController extends Controller
 {
@@ -54,19 +55,19 @@ class KavlingController extends Controller
     public function tambahKavling(Request $request)
     {
         if ($request->isMethod('post')) {
+            //dd($request->all());
             $this->validate($request, [
-                'area_kavling' => 'required|string|max:200|min:3',
-                'harga' => 'required|integer|min:3', // Harga tidak perlu validasi email
-                'status' => 'required|min:3|in:available,booked', // Status hanya boleh 'available' atau 'booked'
+                'area_kavling' => 'required',
+                'harga' => 'required', // Harga tidak perlu validasi email
+                'status' => 'required', // Status hanya boleh 'available' atau 'booked'
             ]);
-
+            dd($request->all());
             Kavling::create([
                 'area_kavling' => $request->area_kavling,
                 'harga' => $request->harga,
                 'status' => $request->status,
             ]);
-
-            return redirect()->route('kavling.index')->with('status', 'Data kavling telah ditambahkan');
+            return redirect()->route('kavling.add')->with('status', 'Data kavling telah ditambahkan');
         }
         return view('page.admin.akun.addAkun'); // Ganti dengan nama view yang sesuai
     }
@@ -77,7 +78,7 @@ class KavlingController extends Controller
         if ($request->isMethod('post')) {
 
             $this->validate($request, [
-                'area_kavling' => 'required|string|max:200|min:3',
+                'area_kavling' => 'required|string|max:200|min:3'.$usr->id,
                 'harga' => 'required|integer|min:3', // Harga tidak perlu validasi email
                 'status' => 'required|min:3|in:available,booked', // Status hanya boleh 'available' atau 'booked'
             ]);
