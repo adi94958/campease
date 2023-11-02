@@ -84,21 +84,24 @@
                         </div>
                         <div class="form-group">
                             <label for="inputStatus">Status</label>
-                            <input
-                                type="text"
+                            <select
                                 id="inputStatus"
                                 name="status"
                                 class="form-control @error('status') is-invalid @enderror"
-                                placeholder="Masukkan Status"
-                                value="{{ old('status') }}"
                                 required="required"
+                                value = "{{ old('status') }}"
                                 autocomplete="status">
+                                <option hidden>Pilih Status</option>
+                                <option value="available">Available</option>
+                                <option value="booked">Booked</option>
+                                <!-- Tambahkan pilihan lainnya sesuai kebutuhan -->
+                            </select>
                             @error('status')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
-                        </div>
+                        </div> 
                     </div>
                     <!-- /.card-body -->
                 </div>
