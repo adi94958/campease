@@ -92,10 +92,37 @@ class KavlingController extends Controller
     //     return view('page.admin.akun.ubahAkun'); // Ganti dengan nama view yang sesuai
     // }
 
+    public function ubahKavling(Request $request, $id)
+    {
+        // Temukan data kavling berdasarkan ID
+        $kavling = Kavling::findOrFail($id);
+
+        if ($request->isMethod('post')) {
+            // Validasi data jika diperlukan
+            $this->validate($request, [
+                'area_kavling' => 'required',
+                'harga' => 'required',
+                'status' => 'required',
+            ]);
+
+            // Update data kavling
+            $kavling->update([
+                'area_kavling' => $request->area_kavling,
+                'harga' => $request->harga,
+                'status' => $request->status,
+            ]);
+
+            return redirect()->route('kavling.index')->with('status', 'Data kavling telah diubah');
+        }
+
+        // Jika bukan metode POST, tampilkan halaman ubah kavling
+        return view('page.admin.akun.ubahKavling', ['kavling' => $kavling]);
+    }
+
+
     public function hapusKavling($area_kavling)
     {
         $usr = Kavling::findOrFail($area_kavling);
-        dd($id);
         $usr->delete($area_kavling);
         return response()->json([
             'msg' => 'Data yang dipilih telah dihapus'
