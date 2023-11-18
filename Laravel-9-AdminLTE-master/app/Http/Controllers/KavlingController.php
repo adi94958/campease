@@ -12,7 +12,7 @@ class KavlingController extends Controller
 {
     public function index()
     {
-        return view('page.admin.akun.index');
+        return view('page.admin.kavling.index');
     }
 
     public function dataTable(Request $request)
@@ -69,33 +69,35 @@ class KavlingController extends Controller
             ]);
             return redirect()->route('kavling.add')->with('status', 'Data kavling telah ditambahkan');
         }
-        return view('page.admin.akun.addAkun'); // Ganti dengan nama view yang sesuai
+        return view('page.admin.kavling.addKavling'); // Ganti dengan nama view yang sesuai
     }
 
-    // public function ubahAkun($id, Request $request)
-    // {
-    //     $usr = Kavling::findOrFail($id);
-    //     if ($request->isMethod('post')) {
+    public function ubahKavling($id, Request $request)
+    {
+        $usr = Kavling::findOrFail($id);
+        if ($request->isMethod('post')) {
 
-    //         $this->validate($request, [
-    //             'area_kavling' => 'required|string|max:200|min:3'.$usr->id,
-    //             'harga' => 'required|integer|min:3', // Harga tidak perlu validasi email
-    //             'status' => 'required|min:3|in:available,booked', // Status hanya boleh 'available' atau 'booked'
-    //         ]);
-    //         $usr->update([
-    //             'area_kavling' => $request->area_kavling,
-    //             'harga' => $request->harga,
-    //             'status' => $request->status,
-    //         ]);
-    //         return redirect()->route('kavling.index')->with('status', 'Data kavling telah diubah');
-    //     }
-    //     return view('page.admin.akun.ubahAkun'); // Ganti dengan nama view yang sesuai
-    // }
+            // $this->validate($request, [
+            //     'area_kavling' => 'required|string|max:200|min:3' . $usr->id,
+            //     'harga' => 'required|integer|min:3',
+            //     'status' => 'required|min:3|in:available,booked',
+            // ]);
+            $usr->update([
+                'area_kavling' => $request->area_kavling,
+                'harga' => $request->harga,
+                'status' => $request->status,
+            ]);
+            return redirect()->route('kavling.edit', ['id' => $usr->id])->with('status', 'Data telah tersimpan di database');
+        }
+        return view('page.admin.kavling.ubahKavling', [
+            'usr' => $usr
+        ]);
+    }
 
     public function hapusKavling($area_kavling)
     {
         $usr = Kavling::findOrFail($area_kavling);
-        dd($id);
+        // dd($id);
         $usr->delete($area_kavling);
         return response()->json([
             'msg' => 'Data yang dipilih telah dihapus'

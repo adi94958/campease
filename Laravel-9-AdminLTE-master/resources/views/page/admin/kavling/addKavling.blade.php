@@ -27,7 +27,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
         <h4><i class="icon fa fa-check"></i> Berhasil!</h4>
         {{ session('status') }}
-      </div>
+    </div>
     @endif
     <form method="post" enctype="multipart/form-data">
         @csrf
@@ -38,11 +38,7 @@
                         <h3 class="card-title">Informasi Data Diri</h3>
 
                         <div class="card-tools">
-                            <button
-                                type="button"
-                                class="btn btn-tool"
-                                data-card-widget="collapse"
-                                title="Collapse">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                 <i class="fas fa-minus"></i>
                             </button>
                         </div>
@@ -50,15 +46,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="inputAreaKavling">Area Kavling</label>
-                            <input
-                                type="text"
-                                id="inputAreaKavling"
-                                name="area_kavling"
-                                class="form-control @error('name') is-invalid @enderror"
-                                placeholder="Masukkan Nama"
-                                value="{{ old('area_kavling') }}"
-                                required="required"
-                                autocomplete="area_kavling">
+                            <input type="text" id="inputAreaKavling" name="area_kavling" class="form-control @error('name') is-invalid @enderror" placeholder="Masukkan Nama" value="{{ old('area_kavling') }}" required="required" autocomplete="area_kavling">
                             @error('area_kavling')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -67,15 +55,7 @@
                         </div>
                         <div class="form-group">
                             <label for="inputHarga">Harga</label>
-                            <input
-                                type="number"
-                                id="inputHarga"
-                                name="harga"
-                                class="form-control @error('harga') is-invalid @enderror"
-                                placeholder="Masukkan Harga"
-                                value="{{ old('harga') }}"
-                                required="required"
-                                autocomplete="harga">
+                            <input type="number" id="inputHarga" name="harga" class="form-control @error('harga') is-invalid @enderror" placeholder="Masukkan Harga" value="{{ old('harga') }}" required="required" autocomplete="harga">
                             @error('harga')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -84,13 +64,7 @@
                         </div>
                         <div class="form-group">
                             <label for="inputStatus">Status</label>
-                            <select
-                                id="inputStatus"
-                                name="status"
-                                class="form-control @error('status') is-invalid @enderror"
-                                required="required"
-                                value = "{{ old('status') }}"
-                                autocomplete="status">
+                            <select id="inputStatus" name="status" class="form-control @error('status') is-invalid @enderror" required="required" value="{{ old('status') }}" autocomplete="status">
                                 <option hidden>Pilih Status</option>
                                 <option value="available">Available</option>
                                 <option value="booked">Booked</option>
@@ -101,7 +75,7 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
-                        </div> 
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
