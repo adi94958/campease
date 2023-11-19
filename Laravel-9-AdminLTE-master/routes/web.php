@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KavlingController;
+use App\Http\Controllers\FasilitasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,5 +52,16 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
             Route::match(['get', 'post'], 'tambah', 'tambahKavling')->name('add');
             Route::match(['get', 'post'], '{id}/ubah', 'ubahKavling')->name('edit');
             Route::delete('{id}/hapus', 'hapusKavling')->name('delete');
+        });
+
+    Route::controller(FasilitasController::class)
+        ->prefix('fasilitas')
+        ->as('fasilitas.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('dataTable', 'dataTable')->name('dataTable');
+            Route::match(['get', 'post'], 'tambah', 'tambahFasilitas')->name('add');
+            Route::match(['get', 'post'], '{id}/ubahFasilitas', 'ubahFasilitas')->name('edit');
+            Route::delete('{id}/hapus', 'hapusFasilitas')->name('delete');
         });
 });

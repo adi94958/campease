@@ -20,6 +20,15 @@ $links = [
                 "section_text" => "Tambah Cavling",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('kavling.add')
+            ],
+            [
+                "section_text" => "Data Fasilitas",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('fasilitas.index')
+            ],            [
+                "section_text" => "Tambah Fasilitas",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('fasilitas.add')
             ]
         ]
     ]
