@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KavlingController;
 use App\Http\Controllers\FasilitasController;
+use App\Http\Controllers\FeedbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,5 +64,16 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
             Route::match(['get', 'post'], 'tambah', 'tambahFasilitas')->name('add');
             Route::match(['get', 'post'], '{id}/ubahFasilitas', 'ubahFasilitas')->name('edit');
             Route::delete('{id}/hapus', 'hapusFasilitas')->name('delete');
+        });
+
+    Route::controller(FeedbackController::class)
+        ->prefix('feedback')
+        ->as('feedback.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('dataTable', 'dataTable')->name('dataTable');
+            Route::match(['get', 'post'], 'tambah', 'tambahFeedback')->name('add');
+            Route::match(['get', 'post'], '{id}/ubahFeedback', 'ubahFeedback')->name('edit');
+            Route::delete('{id}/hapus', 'hapusFeedback')->name('delete');
         });
 });

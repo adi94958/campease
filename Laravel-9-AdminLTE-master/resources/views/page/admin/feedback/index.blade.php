@@ -9,14 +9,14 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Data Kavling</h1>
+                <h1>Data Feedback</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
                         <a href="{{ route('home') }}">Beranda</a>
                     </li>
-                    <li class="breadcrumb-item active">Kavling</li>
+                    <li class="breadcrumb-item active">Feedback</li>
                 </ol>
             </div>
         </div>
@@ -40,12 +40,12 @@
             </div>
         </div>
         <div class="card-body p-0" style="margin: 20px">
-            <table id="previewKavling" class="table table-striped table-bordered display" style="width:100%">
+            <table id="previewFeedback" class="table table-striped table-bordered display" style="width:100%">
                 <thead>
                     <tr>
-                        <th>Area kavling</th>
-                        <th>Harga</th>
-                        <th>Status</th>
+                        <th>Id Pengirim</th>
+                        <th>Isi Feedback</th>
+                        <th>Rating</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -63,11 +63,11 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#previewKavling').DataTable({
+        $('#previewFeedback').DataTable({
             "serverSide": true,
             "processing": true,
             "ajax": {
-                "url": "{{ route('kavling.dataTable') }}",
+                "url": "{{ route('feedback.dataTable') }}",
                 "dataType": "json",
                 "type": "POST",
                 "data": {
@@ -75,11 +75,11 @@
                 }
             },
             "columns": [{
-                "data": "area_kavling" // ubah disini ya jing
+                "data": "id_pengirim" // ubah disini ya jing
             }, {
-                "data": "harga"
+                "data": "isi_feedback"
             }, {
-                "data": "status"
+                "data": "rating"
             }, {
                 "data": "options"
             }],
@@ -111,7 +111,7 @@
         });
 
         // hapus data
-        $('#previewKavling').on('click', '.hapusData', function() {
+        $('#previewFeedback').on('click', '.hapusData', function() {
             var id = $(this).data("id");
             var url = $(this).data("url");
             console.log(url);
@@ -139,7 +139,7 @@
                             success: function(response) {
                                 // console.log();
                                 Swal.fire('Terhapus!', response.msg, 'success');
-                                $('#previewKavling').DataTable().ajax.reload();
+                                $('#previewFeedback').DataTable().ajax.reload();
                             }
                         });
                     }

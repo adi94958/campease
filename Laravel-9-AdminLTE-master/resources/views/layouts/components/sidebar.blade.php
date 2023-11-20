@@ -29,6 +29,15 @@ $links = [
                 "section_text" => "Tambah Fasilitas",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('fasilitas.add')
+            ],
+            [
+                "section_text" => "Data Feedback",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('feedback.index')
+            ],            [
+                "section_text" => "Tambah Feedback",
+                "section_icon" => "far fa-circle",
+                "section_href" => route('feedback.add')
             ]
         ]
     ]
