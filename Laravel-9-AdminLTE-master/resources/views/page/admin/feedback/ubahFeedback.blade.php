@@ -68,9 +68,9 @@
                                 <option hidden>Pilih Rating</option>
                                 <option value="1" {{ $usr->rating === '1' ? 'selected' : '' }}>1</option>
                                 <option value="2" {{ $usr->rating === '2' ? 'selected' : '' }}>2</option>
-                                <option value="2" {{ $usr->rating === '3' ? 'selected' : '' }}>3</option>
-                                <option value="2" {{ $usr->rating === '4' ? 'selected' : '' }}>4</option>
-                                <option value="2" {{ $usr->rating === '5' ? 'selected' : '' }}>5</option>
+                                <option value="3" {{ $usr->rating === '3' ? 'selected' : '' }}>3</option>
+                                <option value="4" {{ $usr->rating === '4' ? 'selected' : '' }}>4</option>
+                                <option value="5" {{ $usr->rating === '5' ? 'selected' : '' }}>5</option>
                             </select>
                             @error('rating')
                             <span class="invalid-feedback" role="alert">

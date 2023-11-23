@@ -8,7 +8,7 @@ $links = [
     ],
     [
         "text" => "Kelola Data Cavling",
-        "icon" => "fas fa-users",
+        "icon" => "fa fa-cubes",
         "is_multi" => true,
         "href" => [
             [
@@ -20,7 +20,14 @@ $links = [
                 "section_text" => "Tambah Cavling",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('kavling.add')
-            ],
+            ]
+        ]
+    ],
+    [
+        "text" => "Kelola Data Fasilitas",
+        "icon" => "fa fa-bath",
+        "is_multi" => true,
+        "href" => [
             [
                 "section_text" => "Data Fasilitas",
                 "section_icon" => "far fa-circle",
@@ -29,7 +36,14 @@ $links = [
                 "section_text" => "Tambah Fasilitas",
                 "section_icon" => "far fa-circle",
                 "section_href" => route('fasilitas.add')
-            ],
+            ]
+        ]
+    ],
+    [
+        "text" => "Kelola Data Feedback",
+        "icon" => "fa fa-comments",
+        "is_multi" => true,
+        "href" => [
             [
                 "section_text" => "Data Feedback",
                 "section_icon" => "far fa-circle",

@@ -48,7 +48,7 @@ class FasilitasController extends Controller
                 'nama_fasilitas' => $request->nama_fasilitas,
                 'jumlah' => $request->jumlah,
             ]);
-            return redirect()->route('fasilitas.index', ['id' => $usr->id])->with('status', 'Data telah tersimpan di database');
+            return redirect()->route('fasilitas.edit', ['id' => $usr->id])->with('status', 'Data telah tersimpan di database');
         }
         return view('page.admin.fasilitas.ubahFasilitas', [
             'usr' => $usr
