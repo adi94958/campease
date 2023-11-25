@@ -21,4 +21,10 @@ class Kavling extends Model
         'harga',
         'status'
     ];
+
+    // Definisikan relasi dengan model Transaksi
+    public function transaksi()
+    {
+        return $this->hasMany(Transaksi::class, 'area_kavling', 'area_kavling');
+    }
 }

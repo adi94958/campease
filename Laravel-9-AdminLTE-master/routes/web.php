@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\AkunController;
+// use App\Http\Controllers\AkunController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KavlingController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\TransaksiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,4 +77,16 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
             Route::match(['get', 'post'], '{id}/ubahFeedback', 'ubahFeedback')->name('edit');
             Route::delete('{id}/hapus', 'hapusFeedback')->name('delete');
         });
+    
+    Route::controller(TransaksiController::class)
+        ->prefix('transaksi')
+        ->as('transaksi.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('dataTable', 'dataTable')->name('dataTable');
+            Route::match(['get', 'post'], 'tambah', 'tambahTransaksi')->name('add');
+            Route::post('get-harga-by-area-kavling', 'getHargaByAreaKavling')->name('getHargaByAreaKavling');
+        });
+
+        Route::post('dashboard/admin/transaksi/get-harga-by-area-kavling', [TransaksiController::class, 'getHargaByAreaKavling'])->name('transaksi.getHargaByAreaKavling');
 });

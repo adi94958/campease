@@ -66,8 +66,8 @@
                             <label for="inputStatus">Status</label>
                             <select id="inputStatus" name="status" class="form-control @error('status') is-invalid @enderror" required="required" value="{{ old('status') }}" autocomplete="status">
                                 <option hidden>Pilih Status</option>
-                                <option value="available">Available</option>
-                                <option value="booked">Booked</option>
+                                <option value="Available">Available</option>
+                                <option value="Booked">Booked</option>
                                 <!-- Tambahkan pilihan lainnya sesuai kebutuhan -->
                             </select>
                             @error('status')

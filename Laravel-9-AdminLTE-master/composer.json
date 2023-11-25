@@ -2,7 +2,11 @@
     "name": "afrizalmy/laravel9-adminlte",
     "type": "project",
     "description": "Laravel Admin Starter project dengan AdminLTE v3.",
-    "keywords": ["framework", "laravel","adminlte"],
+    "keywords": [
+        "framework",
+        "laravel",
+        "adminlte"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
