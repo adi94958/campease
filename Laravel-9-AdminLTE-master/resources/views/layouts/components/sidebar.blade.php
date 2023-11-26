@@ -63,7 +63,7 @@ $links = [
 ],
   [
     "href" => route('transaksi.index'),
-    "text" => "Data Transaksi",
+    "text" => "Kelola Data Transaksi",
     "icon" => "fas fa-list",
     "is_multi" => false
   ],
@@ -73,7 +73,7 @@ $navigation_links = json_decode(json_encode($links));
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
-  <a href="#" class="brand-link d-flex justify-content-center align-items-center">
+  <a href="/dashboard/admin" class="brand-link d-flex justify-content-center align-items-center">
     <i class="fas fa-campground" style="color: #d6d8d9;"></i>
     <span class="brand-text font-weight-light">CampEase</span>
   </a>

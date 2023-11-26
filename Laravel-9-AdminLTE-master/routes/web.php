@@ -86,7 +86,8 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
             Route::post('dataTable', 'dataTable')->name('dataTable');
             Route::match(['get', 'post'], 'tambah', 'tambahTransaksi')->name('add');
             Route::post('get-harga-by-area-kavling', 'getHargaByAreaKavling')->name('getHargaByAreaKavling');
+            Route::post('dashboard/admin/transaksi/get-harga-by-area-kavling', [TransaksiController::class, 'getHargaByAreaKavling'])->name('transaksi.getHargaByAreaKavling');
+            Route::match(['get', 'post'], '{id}/ubahTransaksi', 'ubahTransaksi')->name('edit');
+            Route::delete('{id}/hapus', 'hapusTransaksi')->name('delete');
         });
-
-        Route::post('dashboard/admin/transaksi/get-harga-by-area-kavling', [TransaksiController::class, 'getHargaByAreaKavling'])->name('transaksi.getHargaByAreaKavling');
 });

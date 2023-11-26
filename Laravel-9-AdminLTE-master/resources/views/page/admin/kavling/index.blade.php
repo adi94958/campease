@@ -1,4 +1,4 @@
-@extends('layouts.base_admin.base_dashboard')@section('judul', 'List Akun')
+@extends('layouts.base_admin.base_dashboard')@section('judul', 'List Kavling')
 @section('script_head')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -61,8 +61,18 @@
 
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
+        // jika mencoba edit saat kavling sudah dipesan
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '{{ session('error') }}'
+            });
+        @endif
+
         $('#previewKavling').DataTable({
             "serverSide": true,
             "processing": true,
@@ -75,7 +85,7 @@
                 }
             },
             "columns": [{
-                "data": "area_kavling" // ubah disini ya jing
+                "data": "area_kavling"
             }, {
                 "data": "harga"
             }, {
@@ -109,14 +119,26 @@
             }
 
         });
-
+        
         // hapus data
         $('#previewKavling').on('click', '.hapusData', function() {
             var id = $(this).data("id");
             var url = $(this).data("url");
-            console.log(url);
-            Swal
-                .fire({
+            
+            // Periksa status kavling
+            var kavlingStatus = $(this).closest('tr').find('td:eq(2)').text().trim().toLowerCase(); // Ubah index kolom sesuai dengan urutan kolom status
+
+            if (kavlingStatus === 'booked') {
+                // Kavling sudah dipesan, langsung ada peringatan
+                console.log("booked dahulu");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Kavling tidak dapat dihapus karena sudah ada yang memesan.'
+                });
+            } else {
+                // Tampilkan konfirmasi hapus
+                Swal.fire({
                     title: 'Apa kamu yakin?',
                     text: "Kamu tidak akan dapat mengembalikan ini!",
                     icon: 'warning',
@@ -128,7 +150,7 @@
                 })
                 .then((result) => {
                     if (result.isConfirmed) {
-                        // console.log();
+                        // Hapus data setelah konfirmasi
                         $.ajax({
                             url: url,
                             type: 'DELETE',
@@ -137,13 +159,13 @@
                                 "_token": "{{csrf_token()}}"
                             },
                             success: function(response) {
-                                // console.log();
                                 Swal.fire('Terhapus!', response.msg, 'success');
                                 $('#previewKavling').DataTable().ajax.reload();
                             }
                         });
                     }
-                })
+                });
+            }
         });
     });
 </script>

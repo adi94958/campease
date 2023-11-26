@@ -66,8 +66,8 @@
                             <label for="inputStatus">Status</label>
                             <select id="inputStatus" name="status" class="form-control @error('status') is-invalid @enderror" required="required" autocomplete="status">
                                 <option hidden>Pilih Status</option>
-                                <option value="available" {{ $usr->status === 'available' ? 'selected' : '' }}>Available</option>
-                                <option value="booked" {{ $usr->status === 'booked' ? 'selected' : '' }}>Booked</option>
+                                <option value="Available" {{ $usr->status === 'available' ? 'selected' : '' }}>Available</option>
+                                <option value="Booked" {{ $usr->status === 'booked' ? 'selected' : '' }}>Booked</option>
                             </select>
                             @error('status')
                             <span class="invalid-feedback" role="alert">

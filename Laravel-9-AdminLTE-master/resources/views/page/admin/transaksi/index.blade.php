@@ -49,6 +49,7 @@
                         <th>Harga</th>
                         <th>Tanggal Check-in</th>
                         <th>Tanggal Check-out</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -82,12 +83,14 @@
                 "data": "no_handphone"
             }, {
                 "data": "area_kavling"
-            },{
+            }, {
                 "data": "harga"
             }, {
                 "data": "tanggal_check_in"
-            },{
+            }, {
                 "data": "tanggal_check_out"
+            }, {
+                "data": "options"
             }],
             "language": {
                 "decimal": "",
@@ -114,6 +117,39 @@
                 }
             }
 
+        });
+
+        $('#previewTransaksi').on('click', '.hapusData', function() {
+            var id = $(this).data("id");
+            var url = $(this).data("url");
+            console.log(url);
+            Swal
+                .fire({
+                    title: 'Apa kamu yakin?',
+                    text: "Kamu tidak akan dapat mengembalikan ini!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            data: {
+                                "id": id,
+                                "_token": "{{csrf_token()}}"
+                            },
+                            success: function(response) {
+                                Swal.fire('Terhapus!', response.msg, 'success');
+                                $('#previewTransaksi').DataTable().ajax.reload();
+                            }
+                        });
+                    }
+                })
         });
     });
 </script>

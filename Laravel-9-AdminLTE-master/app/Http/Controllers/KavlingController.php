@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kavling;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -31,13 +32,6 @@ class KavlingController extends Controller
     public function tambahKavling(Request $request)
     {
         if ($request->isMethod('post')) {
-            // dd($request->all());
-            // $this->validate($request, [
-            //     'area_kavling' => 'required',
-            //     'harga' => 'required', // Harga tidak perlu validasi email
-            //     'status' => 'required', // Status hanya boleh 'available' atau 'booked'
-            // ]);
-            // dd($request->all());
             Kavling::create([
                 'area_kavling' => $request->area_kavling,
                 'harga' => $request->harga,
@@ -45,19 +39,19 @@ class KavlingController extends Controller
             ]);
             return redirect()->route('kavling.add')->with('status', 'Data kavling telah ditambahkan');
         }
-        return view('page.admin.kavling.addKavling'); // Ganti dengan nama view yang sesuai
+        return view('page.admin.kavling.addKavling');
     }
 
     public function ubahKavling($id, Request $request)
     {
         $usr = Kavling::findOrFail($id);
-        if ($request->isMethod('post')) {
+        $existingTransactions = Transaksi::where('area_kavling', $usr->area_kavling)->exists();
 
-            // $this->validate($request, [
-            //     'area_kavling' => 'required|string|max:200|min:3' . $usr->id,
-            //     'harga' => 'required|integer|min:3',
-            //     'status' => 'required|min:3|in:available,booked',
-            // ]);
+        if ($existingTransactions) {
+            return redirect()->back()->with('error', 'Kavling tidak dapat diubah karena sudah ada yang memesan.');
+        }
+
+        if ($request->isMethod('post')) {
             $usr->update([
                 'area_kavling' => $request->area_kavling,
                 'harga' => $request->harga,
@@ -70,13 +64,18 @@ class KavlingController extends Controller
         ]);
     }
 
-    public function hapusKavling($area_kavling)
+    public function hapusKavling($id)
     {
-        $usr = Kavling::findOrFail($area_kavling);
-        // dd($id);
-        $usr->delete($area_kavling);
-        return response()->json([
-            'msg' => 'Data yang dipilih telah dihapus'
-        ]);
+        $kavling = Kavling::findOrFail($id);
+        $existingTransactions = Transaksi::where('area_kavling', $kavling->area_kavling)->exists();
+
+        if ($existingTransactions) {
+            dd("return dahulu");
+            return redirect()->back()->with('error', 'Kavling tidak dapat dihapus karena sudah ada yang memesan.');
+        }
+
+        $kavling->delete();
+
+        return response()->json(['msg' => 'Kavling berhasil dihapus.']);
     }
 }
