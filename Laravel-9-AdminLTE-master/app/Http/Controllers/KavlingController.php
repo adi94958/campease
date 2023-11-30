@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use App\Exports\KavlingExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KavlingController extends Controller
 {
@@ -77,5 +79,10 @@ class KavlingController extends Controller
         $kavling->delete();
 
         return response()->json(['msg' => 'Kavling berhasil dihapus.']);
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new KavlingExport, 'kavling.xlsx');
     }
 }

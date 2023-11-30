@@ -40,6 +40,9 @@
             </div>
         </div>
         <div class="card-body p-0" style="margin: 20px">
+            <div class="mb-3">
+                <a href="{{ route('fasilitas.export') }}" class="btn btn-success">Export to Excel</a>
+            </div>
             <table id="previewFasilitas" class="table table-striped table-bordered display" style="width:100%">
                 <thead>
                     <tr>

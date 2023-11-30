@@ -1,6 +1,7 @@
 <?php
 
-// use App\Http\Controllers\AkunController;
+use App\Exports\FasilitasExport;
+use App\Http\Controllers\AkunController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\KavlingController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\TransaksiController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::get('/kavling/export', [KavlingController::class, 'exportExcel'])->name('kavling.export');
+Route::get('/fasilitas/export', [FasilitasController::class, 'exportExcel'])->name('fasilitas.export');
+Route::get('/feedback/export', [eedbackController::class, 'exportExcel'])->name('feedback.export');
 
 Route::group(['prefix' => 'dashboard/admin'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -77,7 +83,7 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
             Route::match(['get', 'post'], '{id}/ubahFeedback', 'ubahFeedback')->name('edit');
             Route::delete('{id}/hapus', 'hapusFeedback')->name('delete');
         });
-    
+
     Route::controller(TransaksiController::class)
         ->prefix('transaksi')
         ->as('transaksi.')

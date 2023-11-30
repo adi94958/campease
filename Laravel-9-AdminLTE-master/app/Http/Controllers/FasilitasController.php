@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\FasilitasExport;
 use App\Models\Fasilitas;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FasilitasController extends Controller
 {
@@ -63,5 +62,10 @@ class FasilitasController extends Controller
         return response()->json([
             'msg' => 'Data yang dipilih telah dihapus'
         ]);
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new FasilitasExport, 'fasilitas.xlsx');
     }
 }

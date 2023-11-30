@@ -51,7 +51,7 @@ class TransaksiController extends Controller
             ]);
 
             Kavling::where('area_kavling', $request->area_kavling)
-            ->update(['status' => 'Booked']);
+                ->update(['status' => 'Booked']);
 
             return redirect()->route('transaksi.add')->with('status', 'Data transaksi telah ditambahkan');
         }
@@ -72,7 +72,7 @@ class TransaksiController extends Controller
             if ($request->area_kavling != $usr->area_kavling) {
                 // Jika berbeda, update status kavling sebelumnya menjadi 'Available'
                 Kavling::where('area_kavling', $usr->area_kavling)->update(['status' => 'Available']);
-                
+
                 // Update status kavling baru menjadi 'Booked'
                 Kavling::where('area_kavling', $request->area_kavling)->update(['status' => 'Booked']);
             }

@@ -40,6 +40,9 @@
             </div>
         </div>
         <div class="card-body p-0" style="margin: 20px">
+            <div class="mb-3">
+                <a href="{{ route('kavling.export') }}" class="btn btn-success">Export to Excel</a>
+            </div>
             <table id="previewKavling" class="table table-striped table-bordered display" style="width:100%">
                 <thead>
                     <tr>
@@ -65,14 +68,6 @@
 <script>
     $(document).ready(function() {
         // jika mencoba edit saat kavling sudah dipesan
-        @if(session('error'))
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: '{{ session('error') }}'
-            });
-        @endif
-
         $('#previewKavling').DataTable({
             "serverSide": true,
             "processing": true,
@@ -119,12 +114,12 @@
             }
 
         });
-        
+
         // hapus data
         $('#previewKavling').on('click', '.hapusData', function() {
             var id = $(this).data("id");
             var url = $(this).data("url");
-            
+
             // Periksa status kavling
             var kavlingStatus = $(this).closest('tr').find('td:eq(2)').text().trim().toLowerCase(); // Ubah index kolom sesuai dengan urutan kolom status
 
@@ -139,32 +134,32 @@
             } else {
                 // Tampilkan konfirmasi hapus
                 Swal.fire({
-                    title: 'Apa kamu yakin?',
-                    text: "Kamu tidak akan dapat mengembalikan ini!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        // Hapus data setelah konfirmasi
-                        $.ajax({
-                            url: url,
-                            type: 'DELETE',
-                            data: {
-                                "id": id,
-                                "_token": "{{csrf_token()}}"
-                            },
-                            success: function(response) {
-                                Swal.fire('Terhapus!', response.msg, 'success');
-                                $('#previewKavling').DataTable().ajax.reload();
-                            }
-                        });
-                    }
-                });
+                        title: 'Apa kamu yakin?',
+                        text: "Kamu tidak akan dapat mengembalikan ini!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    })
+                    .then((result) => {
+                        if (result.isConfirmed) {
+                            // Hapus data setelah konfirmasi
+                            $.ajax({
+                                url: url,
+                                type: 'DELETE',
+                                data: {
+                                    "id": id,
+                                    "_token": "{{csrf_token()}}"
+                                },
+                                success: function(response) {
+                                    Swal.fire('Terhapus!', response.msg, 'success');
+                                    $('#previewKavling').DataTable().ajax.reload();
+                                }
+                            });
+                        }
+                    });
             }
         });
     });

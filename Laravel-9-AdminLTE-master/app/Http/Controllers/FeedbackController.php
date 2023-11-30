@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feedback;
+use App\Exports\FeedbackExport;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FeedbackController extends Controller
 {
@@ -61,5 +63,10 @@ class FeedbackController extends Controller
         return response()->json([
             'msg' => 'Data yang dipilih telah dihapus'
         ]);
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new FeedbackExport, 'feedback.xlsx');
     }
 }

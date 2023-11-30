@@ -69,7 +69,7 @@
                                 <option hidden>Pilih Area Kavling</option>
                                 <!-- Loop through available kavlings to populate the dropdown -->
                                 @foreach($availableKavlings as $kavling)
-                                    <option value="{{ $kavling->area_kavling }}">{{ $kavling->area_kavling }}</option>
+                                <option value="{{ $kavling->area_kavling }}">{{ $kavling->area_kavling }}</option>
                                 @endforeach
                             </select>
                             @error('area_kavling')
@@ -85,29 +85,29 @@
                         <div class="form-group">
                             <label for="inputTanggalCheckIn">Tanggal Check-in</label>
                             <div class="input-group date" id="reservationdateCheckIn" data-target-input="nearest">
-                                <input type="text" id="inputTanggalCheckIn" name="tanggal_check_in" class="form-control datetimepicker-input @error('tanggal_check_in') is-invalid @enderror" placeholder="TTTT-BB-HH" value="{{ old('tanggal_check_in') }}" required autocomplete="tanggal_check_in" data-target="#reservationdateCheckIn"/>
+                                <input type="text" id="inputTanggalCheckIn" name="tanggal_check_in" class="form-control datetimepicker-input @error('tanggal_check_in') is-invalid @enderror" placeholder="TTTT-BB-HH" value="{{ old('tanggal_check_in') }}" required autocomplete="tanggal_check_in" data-target="#reservationdateCheckIn" />
                                 <div class="input-group-append" data-target="#reservationdateCheckIn" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>
                             @error('tanggal_check_in')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                         <div class="form-group">
                             <label for="inputTanggalCheckOut">Tanggal Check-out</label>
                             <div class="input-group date" id="reservationdateCheckOut" data-target-input="nearest">
-                                <input type="text" id="inputTanggalCheckOut" name="tanggal_check_out" class="form-control datetimepicker-input @error('tanggal_check_out') is-invalid @enderror" placeholder="TTTT-BB-HH" value="{{ old('tanggal_check_out') }}" required autocomplete="tanggal_check_out" data-target="#reservationdateCheckOut"/>
+                                <input type="text" id="inputTanggalCheckOut" name="tanggal_check_out" class="form-control datetimepicker-input @error('tanggal_check_out') is-invalid @enderror" placeholder="TTTT-BB-HH" value="{{ old('tanggal_check_out') }}" required autocomplete="tanggal_check_out" data-target="#reservationdateCheckOut" />
                                 <div class="input-group-append" data-target="#reservationdateCheckOut" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                 </div>
                             </div>
                             @error('tanggal_check_out')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                         </div>
                     </div>
@@ -131,8 +131,8 @@
 @section('script_footer')
 <script>
     // Add a script to update the harga field when the area_kavling is changed
-    $(document).ready(function () {
-        $('#inputAreaKavling').change(function () {
+    $(document).ready(function() {
+        $('#inputAreaKavling').change(function() {
             var selectedAreaKavling = $(this).val();
             // Perform an AJAX request to get the harga for the selected kavling
             $.ajax({
@@ -142,11 +142,11 @@
                     _token: "{{ csrf_token() }}",
                     area_kavling: selectedAreaKavling
                 },
-                success: function (response) {
+                success: function(response) {
                     // Update the harga field with the received data
                     $('#inputHarga').val(response.harga);
                 },
-                error: function (error) {
+                error: function(error) {
                     console.log(error);
                 }
             });

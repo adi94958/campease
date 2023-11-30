@@ -1,72 +1,72 @@
 @php
 $links = [
-  [
-      "href" => route('home'),
-      "text" => "Dasboard",
-      "icon" => "fas fa-home",
-      "is_multi" => false
-  ],
-  [
-      "href" => route('transaksi.add'),
-      "text" => "Tambah Transaksi",
-      "icon" => "fas fa-money-bill",
-      "is_multi" => false
-  ],
-  [
-    "text" => "Kelola Data Cavling",
-    "icon" => "fa fa-cubes",
-    "is_multi" => true,
-    "href" => [
-      [
-          "section_text" => "Data Cavling",
-          "section_icon" => "far fa-circle",
-          "section_href" => route('kavling.index')
-      ],
-      [
-          "section_text" => "Tambah Cavling",
-          "section_icon" => "far fa-circle",
-          "section_href" => route('kavling.add')
-      ]
-    ]
-  ],
-  [
-    "text" => "Kelola Data Fasilitas",
-    "icon" => "fa fa-bath",
-    "is_multi" => true,
-    "href" => [
-      [
-          "section_text" => "Data Fasilitas",
-          "section_icon" => "far fa-circle",
-          "section_href" => route('fasilitas.index')
-      ],            [
-          "section_text" => "Tambah Fasilitas",
-          "section_icon" => "far fa-circle",
-          "section_href" => route('fasilitas.add')
-      ]
-    ]
-  ],
-  [
-    "text" => "Kelola Data Feedback",
-    "icon" => "fa fa-comments",
-    "is_multi" => true,
-    "href" => [
-      [
-          "section_text" => "Data Feedback",
-          "section_icon" => "far fa-circle",
-          "section_href" => route('feedback.index')
-      ],            [
-          "section_text" => "Tambah Feedback",
-          "section_icon" => "far fa-circle",
-          "section_href" => route('feedback.add')
-      ]
-    ]
+[
+"href" => route('home'),
+"text" => "Dasboard",
+"icon" => "fas fa-home",
+"is_multi" => false
 ],
-  [
-    "href" => route('transaksi.index'),
-    "text" => "Kelola Data Transaksi",
-    "icon" => "fas fa-list",
-    "is_multi" => false
-  ],
+[
+"href" => route('transaksi.add'),
+"text" => "Tambah Transaksi",
+"icon" => "fas fa-money-bill",
+"is_multi" => false
+],
+[
+"text" => "Kelola Data Cavling",
+"icon" => "fa fa-cubes",
+"is_multi" => true,
+"href" => [
+[
+"section_text" => "Data Cavling",
+"section_icon" => "far fa-circle",
+"section_href" => route('kavling.index')
+],
+[
+"section_text" => "Tambah Cavling",
+"section_icon" => "far fa-circle",
+"section_href" => route('kavling.add')
+]
+]
+],
+[
+"text" => "Kelola Data Fasilitas",
+"icon" => "fa fa-bath",
+"is_multi" => true,
+"href" => [
+[
+"section_text" => "Data Fasilitas",
+"section_icon" => "far fa-circle",
+"section_href" => route('fasilitas.index')
+], [
+"section_text" => "Tambah Fasilitas",
+"section_icon" => "far fa-circle",
+"section_href" => route('fasilitas.add')
+]
+]
+],
+[
+"text" => "Kelola Data Feedback",
+"icon" => "fa fa-comments",
+"is_multi" => true,
+"href" => [
+[
+"section_text" => "Data Feedback",
+"section_icon" => "far fa-circle",
+"section_href" => route('feedback.index')
+], [
+"section_text" => "Tambah Feedback",
+"section_icon" => "far fa-circle",
+"section_href" => route('feedback.add')
+]
+]
+],
+[
+"href" => route('transaksi.index'),
+"text" => "Kelola Data Transaksi",
+"icon" => "fas fa-list",
+"is_multi" => false
+],
 ];
 $navigation_links = json_decode(json_encode($links));
 @endphp
@@ -82,67 +82,67 @@ $navigation_links = json_decode(json_encode($links));
   <div class="sidebar">
 
     <!-- Sidebar Menu -->
-  <nav class="mt-2">
+    <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
               with font-awesome or any other icon font library -->
         @foreach ($navigation_links as $link)
-          @if (!$link->is_multi)
-          <li class="nav-item">
-            @if ($link->text == "Tambah Transaksi")
-            <a href="{{ (url()->current() == $link->href) ? '#' : $link->href }}" class="nav-link {{ (url()->current() == $link->href) ? 'active' : '' }}">
-              <i class="nav-icon {{ $link->icon }}"></i>
-              <p>
-                  {{ $link->text }}
-                  {{-- <span class="right badge badge-danger">New</span> --}}
-              </p>
-            </a>
-            @else
-            <a href="{{ (url()->current() == $link->href) ? '#' : $link->href }}" class="nav-link {{ (url()->current() == $link->href) ? 'active' : '' }}">
-                <i class="nav-icon {{ $link->icon }}"></i>
-                <p>
-                    {{ $link->text }}
-                    {{-- <span class="right badge badge-danger">New</span> --}}
-                </p>
-            </a>
-            @endif
-          </li>
+        @if (!$link->is_multi)
+        <li class="nav-item">
+          @if ($link->text == "Tambah Transaksi")
+          <a href="{{ (url()->current() == $link->href) ? '#' : $link->href }}" class="nav-link {{ (url()->current() == $link->href) ? 'active' : '' }}">
+            <i class="nav-icon {{ $link->icon }}"></i>
+            <p>
+              {{ $link->text }}
+              {{-- <span class="right badge badge-danger">New</span> --}}
+            </p>
+          </a>
           @else
-          @php
-              foreach($link->href as $section){
-                  if (url()->current() == $section->section_href) {
-                      $open = 'menu-open';
-                      $status = 'active';
-                      break; // Put this here
-                  } else {
-                      $open ='';
-                      $status = '';
-                  }
-              }
-          @endphp
-          <li class="nav-item {{$open}}">
+          <a href="{{ (url()->current() == $link->href) ? '#' : $link->href }}" class="nav-link {{ (url()->current() == $link->href) ? 'active' : '' }}">
+            <i class="nav-icon {{ $link->icon }}"></i>
+            <p>
+              {{ $link->text }}
+              {{-- <span class="right badge badge-danger">New</span> --}}
+            </p>
+          </a>
+          @endif
+        </li>
+        @else
+        @php
+        foreach($link->href as $section){
+        if (url()->current() == $section->section_href) {
+        $open = 'menu-open';
+        $status = 'active';
+        break; // Put this here
+        } else {
+        $open ='';
+        $status = '';
+        }
+        }
+        @endphp
+        <li class="nav-item {{$open}}">
           <a href="#" class="nav-link {{$status}}">
-              <i class="nav-icon {{ $link->icon }}"></i>
-              <p>
-                {{ $link->text }}
-                <i class="right fas fa-angle-left"></i>
-              </p>
+            <i class="nav-icon {{ $link->icon }}"></i>
+            <p>
+              {{ $link->text }}
+              <i class="right fas fa-angle-left"></i>
+            </p>
           </a>
           <ul class="nav nav-treeview">
-              @foreach ($link->href as $section)
-              <li class="nav-item">
-                <a href="{{ (url()->current() == $section->section_href) ? '#' : $section->section_href }}" class="nav-link {{ (url()->current() == $section->section_href) ? 'active' : '' }}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{ $section->section_text }}</p>
-                </a>
-              </li>
-              @endforeach
-            </ul>
-          </li>
-          @endif
+            @foreach ($link->href as $section)
+            <li class="nav-item">
+              <a href="{{ (url()->current() == $section->section_href) ? '#' : $section->section_href }}" class="nav-link {{ (url()->current() == $section->section_href) ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>{{ $section->section_text }}</p>
+              </a>
+            </li>
+            @endforeach
+          </ul>
+        </li>
+        @endif
         @endforeach
       </ul>
-  </nav>
+    </nav>
     <!-- /.sidebar-menu -->
   </div>
   <!-- /.sidebar -->
