@@ -22,7 +22,7 @@ class KavlingSeeder extends Seeder
             Kavling::create([
                 'area_kavling' => 'Kavling ' . $i,
                 'harga' => $harga,
-                'status' => rand(0, 1) ? 'Available' : 'Booked',
+                'status' => rand(0, 1) ? 'available' : 'booked',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

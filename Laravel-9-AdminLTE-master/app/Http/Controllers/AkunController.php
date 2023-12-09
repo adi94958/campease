@@ -12,7 +12,7 @@ class AkunController extends Controller
 {
     public function index()
     {
-        return view('page.admin.akun.index');
+        return view('page.superadmin.akun.index');
     }
 
     public function dataTable(Request $request)
@@ -34,39 +34,36 @@ class AkunController extends Controller
         $order_val = $columns_list[$request->input('order.0.column')];
         $dir_val = $request->input('order.0.dir');
 
-        if(empty($request->input('search.value')))
-        {
-            $akun_data = User::where('id','!=',Auth::id())
-            ->offset($start_val)
-            ->limit($limit_val)
-            ->orderBy($order_val,$dir_val)
-            ->get();
+        if (empty($request->input('search.value'))) {
+            $akun_data = User::where('id', '!=', Auth::id())
+                ->offset($start_val)
+                ->limit($limit_val)
+                ->orderBy($order_val, $dir_val)
+                ->get();
         } else {
             $search_text = $request->input('search.value');
 
-            $akun_data =  User::where('id','!=',Auth::id())
-            ->where('id','LIKE',"%{$search_text}%")
-            ->orWhere('name', 'LIKE',"%{$search_text}%")
-            ->orWhere('email', 'LIKE',"%{$search_text}%")
-            ->offset($start_val)
-            ->limit($limit_val)
-            ->orderBy($order_val,$dir_val)
-            ->get();
+            $akun_data =  User::where('id', '!=', Auth::id())
+                ->where('id', 'LIKE', "%{$search_text}%")
+                ->orWhere('name', 'LIKE', "%{$search_text}%")
+                ->orWhere('email', 'LIKE', "%{$search_text}%")
+                ->offset($start_val)
+                ->limit($limit_val)
+                ->orderBy($order_val, $dir_val)
+                ->get();
 
-            $totalFilteredRecord = User::where('id','!=',Auth::id())
-            ->where('id','LIKE',"%{$search_text}%")
-            ->orWhere('name', 'LIKE',"%{$search_text}%")
-            ->orWhere('email', 'LIKE',"%{$search_text}%")
-            ->count();
+            $totalFilteredRecord = User::where('id', '!=', Auth::id())
+                ->where('id', 'LIKE', "%{$search_text}%")
+                ->orWhere('name', 'LIKE', "%{$search_text}%")
+                ->orWhere('email', 'LIKE', "%{$search_text}%")
+                ->count();
         }
 
         $data_val = array();
-        if(!empty($akun_data))
-        {
-            foreach ($akun_data as $akun_val)
-            {
-                $url = route('akun.edit',['id' => $akun_val->id]);
-                $urlHapus = route('akun.delete',$akun_val->id);
+        if (!empty($akun_data)) {
+            foreach ($akun_data as $akun_val) {
+                $url = route('akun.edit', ['id' => $akun_val->id]);
+                $urlHapus = route('akun.delete', $akun_val->id);
                 if ($akun_val->user_image) {
                     $img = $akun_val->user_image;
                 } else {
@@ -81,10 +78,10 @@ class AkunController extends Controller
         }
         $draw_val = $request->input('draw');
         $get_json_data = array(
-        "draw"            => intval($draw_val),
-        "recordsTotal"    => intval($totalDataRecord),
-        "recordsFiltered" => intval($totalFilteredRecord),
-        "data"            => $data_val
+            "draw"            => intval($draw_val),
+            "recordsTotal"    => intval($totalDataRecord),
+            "recordsFiltered" => intval($totalFilteredRecord),
+            "data"            => $data_val
         );
 
         echo json_encode($get_json_data);
@@ -111,11 +108,12 @@ class AkunController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'user_image' => $img
+                'user_image' => $img,
+                'role' => '2',
             ]);
             return redirect()->route('akun.add')->with('status', 'Data telah tersimpan di database');
         }
-        return view('page.admin.akun.addAkun');
+        return view('page.superadmin.akun.addAkun');
     }
 
     public function ubahAkun($id, Request $request)
@@ -125,7 +123,7 @@ class AkunController extends Controller
 
             $this->validate($request, [
                 'name' => 'required|string|max:200|min:3',
-                'email' => 'required|string|min:3|email|unique:users,email,'.$usr->id,
+                'email' => 'required|string|min:3|email|unique:users,email,' . $usr->id,
                 'password' => 'required|min:8|confirmed',
                 'password_confirmation' => 'required|min:8',
                 'user_image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:1024'
@@ -133,8 +131,8 @@ class AkunController extends Controller
             $img = $usr->user_image;
             if ($request->file('user_image')) {
                 # delete old img
-                if ($img && file_exists(public_path().$img)) {
-                    unlink(public_path().$img);
+                if ($img && file_exists(public_path() . $img)) {
+                    unlink(public_path() . $img);
                 }
                 $nama_gambar = time() . '_' . $request->file('user_image')->getClientOriginalName();
                 $upload = $request->user_image->storeAs('public/admin/user_profile', $nama_gambar);
@@ -146,9 +144,9 @@ class AkunController extends Controller
                 'password' => Hash::make($request->password),
                 'user_image' => $img
             ]);
-            return redirect()->route('akun.edit',['id' => $usr->id ])->with('status', 'Data telah tersimpan di database');
+            return redirect()->route('akun.edit', ['id' => $usr->id])->with('status', 'Data telah tersimpan di database');
         }
-        return view('page.admin.akun.ubahAkun', [
+        return view('page.superadmin.akun.ubahAkun', [
             'usr' => $usr
         ]);
     }
@@ -156,8 +154,8 @@ class AkunController extends Controller
     public function hapusAkun($id)
     {
         $usr = User::findOrFail($id);
-        if ($usr->user_image && file_exists(public_path().$usr->user_image)) {
-            unlink(public_path().$usr->user_image);
+        if ($usr->user_image && file_exists(public_path() . $usr->user_image)) {
+            unlink(public_path() . $usr->user_image);
         }
         $usr->delete($id);
         return response()->json([

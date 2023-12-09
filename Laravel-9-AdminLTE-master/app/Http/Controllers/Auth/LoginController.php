@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -26,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = 'dashboard/admin';
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -56,5 +59,18 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('auth.login');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // Setelah berhasil login, periksa peran pengguna
+        $role = $user->role;
+        // dd($role);
+        // Redirect berdasarkan peran pengguna
+        if ($role == '2') {
+            return redirect()->route('home');
+        } elseif ($role == '1') {
+            return redirect()->route('superadmin.dashboard');
+        }
     }
 }

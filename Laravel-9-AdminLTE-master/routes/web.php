@@ -32,7 +32,22 @@ Route::get('/kavling/export', [KavlingController::class, 'exportExcel'])->name('
 Route::get('/fasilitas/export', [FasilitasController::class, 'exportExcel'])->name('fasilitas.export');
 Route::get('/feedback/export', [eedbackController::class, 'exportExcel'])->name('feedback.export');
 
-Route::group(['prefix' => 'dashboard/admin'], function () {
+Route::group(['prefix' => 'dashboard/superadmin', 'middleware' => ['auth', 'checkRole:1']], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('superadmin.dashboard');
+
+    Route::controller(AkunController::class)
+        ->prefix('akun')
+        ->as('akun.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::post('showdata', 'dataTable')->name('dataTable');
+            Route::match(['get', 'post'], 'tambah', 'tambahAkun')->name('add');
+            Route::match(['get', 'post'], '{id}/ubah', 'ubahAkun')->name('edit');
+            Route::delete('{id}/hapus', 'hapusAkun')->name('delete');
+        });
+});
+
+Route::group(['prefix' => 'dashboard/admin', 'middleware' => ['auth', 'checkRole:2']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     Route::group(['prefix' => 'profile'], function () {
@@ -40,16 +55,6 @@ Route::group(['prefix' => 'dashboard/admin'], function () {
         Route::post('update', [HomeController::class, 'updateprofile'])->name('profile.update');
     });
 
-    // Route::controller(AkunController::class)
-    //     ->prefix('akun')
-    //     ->as('akun.')
-    //     ->group(function () {
-    //         Route::get('/', 'index')->name('index');
-    //         Route::post('showdata', 'dataTable')->name('dataTable');
-    //         Route::match(['get', 'post'], 'tambah', 'tambahAkun')->name('add');
-    //         Route::match(['get', 'post'], '{id}/ubah', 'ubahAkun')->name('edit');
-    //         Route::delete('{id}/hapus', 'hapusAkun')->name('delete');
-    //     });
 
     Route::controller(KavlingController::class)
         ->prefix('kavling')

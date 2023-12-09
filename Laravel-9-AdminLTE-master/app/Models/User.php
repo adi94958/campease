@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Maatwebsite\Excel\Row;
 
 class User extends Authenticatable
 {
@@ -21,7 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'user_image'
+        'user_image',
+        'role'
     ];
 
     /**
@@ -42,4 +44,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Definisikan relasi dengan model role
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'id', 'role');
+    }
 }

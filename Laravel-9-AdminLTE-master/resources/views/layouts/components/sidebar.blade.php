@@ -1,5 +1,5 @@
 @php
-$links = [
+$linksUser = [
 [
 "href" => route('home'),
 "text" => "Dasboard",
@@ -68,6 +68,38 @@ $links = [
 "is_multi" => false
 ],
 ];
+
+$linksAdmin = [
+[
+"text" => "Kelola Data Akun",
+"icon" => "fa fa-cubes",
+"is_multi" => true,
+"href" => [
+[
+"section_text" => "Data Akun",
+"section_icon" => "far fa-circle",
+"section_href" => route('akun.index')
+],
+[
+"section_text" => "Tambah Akun",
+"section_icon" => "far fa-circle",
+"section_href" => route('akun.add')
+]
+]
+],
+];
+
+$user = auth()->user();
+// Cek dan dapatkan role
+if ($user) {
+$role = $user->role; // Sesuaikan dengan nama properti role pada model User Anda
+// Sekarang $role berisi nilai role dari pengguna yang sudah login
+if($role == 1){
+$links = $linksAdmin;
+}else{
+$links = $linksUser;
+}
+}
 $navigation_links = json_decode(json_encode($links));
 @endphp
 <!-- Main Sidebar Container -->

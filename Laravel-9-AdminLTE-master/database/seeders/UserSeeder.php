@@ -20,7 +20,14 @@ class UserSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@admin',
             'password' => Hash::make('12345678'), // Ganti dengan password yang diinginkan
-            'user_image' => 'default.jpg', // Ganti dengan nama gambar default
+            'role' => '1'
+        ]);
+
+        User::create([
+            'name' => 'user',
+            'email' => 'user1@user',
+            'password' => Hash::make('12345678'), // Ganti dengan password yang diinginkan
+            'role' => '2'
         ]);
     }
 }
