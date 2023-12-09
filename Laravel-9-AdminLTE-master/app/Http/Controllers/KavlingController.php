@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 use App\Exports\KavlingExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -83,6 +84,26 @@ class KavlingController extends Controller
 
     public function exportExcel()
     {
-        return Excel::download(new KavlingExport, 'kavling.xlsx');
+        // Enable query logging
+        DB::enableQueryLog();
+
+        try {
+            // Mendapatkan jumlah data kavling
+            $count = Kavling::count();
+
+            if ($count == 0) {
+                throw new \Exception('Tidak ada data kavling untuk diexport.');
+            }
+
+            // Perform the export
+            return Excel::download(new KavlingExport, 'kavling.xlsx');
+        } catch (\Exception $e) {
+            // Handle the exception, you can log it, redirect, or return a response.
+            Log::error($e->getMessage());
+
+            dd(DB::getQueryLog(), $e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

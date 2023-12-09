@@ -30,7 +30,7 @@ Auth::routes();
 
 Route::get('/kavling/export', [KavlingController::class, 'exportExcel'])->name('kavling.export');
 Route::get('/fasilitas/export', [FasilitasController::class, 'exportExcel'])->name('fasilitas.export');
-Route::get('/feedback/export', [eedbackController::class, 'exportExcel'])->name('feedback.export');
+Route::get('/feedback/export', [FeedbackController::class, 'exportExcel'])->name('feedback.export');
 
 Route::group(['prefix' => 'dashboard/superadmin', 'middleware' => ['auth', 'checkRole:1']], function () {
     Route::get('/', [HomeController::class, 'index'])->name('superadmin.dashboard');
