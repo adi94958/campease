@@ -39,7 +39,7 @@ class TransaksiController extends Controller
 
     public function tambahTransaksi(Request $request)
     {
-        $availableKavlings = Kavling::where('status', 'available')->get();
+        $availableKavlings = Kavling::where('status', 'Available')->get();
 
         if ($request->isMethod('post')) {
             Transaksi::create([
