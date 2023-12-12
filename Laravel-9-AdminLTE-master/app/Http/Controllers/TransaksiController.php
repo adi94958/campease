@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TransaksiExport;
 use App\Models\Transaksi;
 use App\Models\Kavling;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TransaksiController extends Controller
 {
@@ -117,5 +121,25 @@ class TransaksiController extends Controller
         return response()->json([
             'msg' => 'Data yang dipilih telah dihapus'
         ]);
+    }
+
+    public function exportExcel()
+    {
+        DB::enableQueryLog();
+        try {
+            $count = Transaksi::count();
+
+            if ($count == 0) {
+                throw new \Exception('Tidak ada data transaksi untuk diexport.');
+            }
+            return Excel::download(new TransaksiExport, 'transaksi.xlsx');
+        } catch (\Exception $e) {
+            // Handle the exception, you can log it, redirect, or return a response.
+            Log::error($e->getMessage());
+
+            dd(DB::getQueryLog(), $e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

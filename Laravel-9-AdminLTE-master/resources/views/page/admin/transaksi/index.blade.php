@@ -41,6 +41,9 @@
             </div>
         </div>
         <div class="card-body p-0" style="margin: 20px">
+            <div class="mb-3">
+                <a href="{{ route('transaksi.export') }}" class="btn btn-success">Export to Excel</a>
+            </div>
             <table id="previewTransaksi" class="table table-striped table-bordered display" style="width:100%">
                 <thead>
                     <tr>

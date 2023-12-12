@@ -69,7 +69,7 @@ class FeedbackController extends Controller
 
     public function exportExcel()
     {
-        
+
         DB::enableQueryLog();
 
         try {
@@ -77,7 +77,7 @@ class FeedbackController extends Controller
             $count = Feedback::count();
 
             if ($count == 0) {
-                throw new \Exception('Tidak ada data kavling untuk diexport.');
+                throw new \Exception('Tidak ada data Feedback untuk diexport.');
             }
 
             // Perform the export
