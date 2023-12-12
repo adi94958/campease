@@ -13,17 +13,17 @@ $linksUser = [
 "is_multi" => false
 ],
 [
-"text" => "Kelola Data Cavling",
+"text" => "Kelola Data Kavling",
 "icon" => "fa fa-cubes",
 "is_multi" => true,
 "href" => [
 [
-"section_text" => "Data Cavling",
+"section_text" => "Data Kavling",
 "section_icon" => "far fa-circle",
 "section_href" => route('kavling.index')
 ],
 [
-"section_text" => "Tambah Cavling",
+"section_text" => "Tambah Kavling",
 "section_icon" => "far fa-circle",
 "section_href" => route('kavling.add')
 ]

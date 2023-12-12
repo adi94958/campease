@@ -82,7 +82,10 @@
             "columns": [{
                 "data": "area_kavling"
             }, {
-                "data": "harga"
+                "data": "harga",
+                "render": function(data) {
+                    return formatRupiah(data);
+                }
             }, {
                 "data": "status"
             }, {
@@ -114,6 +117,13 @@
             }
 
         });
+
+        function formatRupiah(angka) {
+            var reverse = angka.toString().split('').reverse().join('');
+            var ribuan = reverse.match(/\d{1,3}/g);
+            var formatted = ribuan.join('.').split('').reverse().join('');
+            return 'Rp ' + formatted;
+        }
 
         // hapus data
         $('#previewKavling').on('click', '.hapusData', function() {

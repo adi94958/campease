@@ -14,7 +14,7 @@ class FeedbackSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 1000; $i++) {
             Feedback::create([
                 'id_pengirim' => $i, // Ganti 50 dengan jumlah pengirim yang ada di database
                 'isi_feedback' => "Feedback ke-" . $i,
