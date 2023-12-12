@@ -1,6 +1,5 @@
 <?php
 
-use App\Exports\FasilitasExport;
 use App\Http\Controllers\AkunController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;

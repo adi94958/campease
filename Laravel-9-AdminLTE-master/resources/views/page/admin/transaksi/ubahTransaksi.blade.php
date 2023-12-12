@@ -79,16 +79,13 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="inputHarga">Harga</label>
-                            <input type="text" id="inputHarga" name="harga" class="form-control" value="" readonly>
+                            <label for="inputHarga">Harga Kavling per Hari</label>
+                            <input type="text" id="inputHarga" name="harga" class="form-control" value="{{ $usr->harga }}" readonly>
                         </div>
                         <div class="form-group">
                             <label for="inputTanggalCheckIn">Tanggal Check-in</label>
                             <div class="input-group date" id="reservationdateCheckIn" data-target-input="nearest">
-                                <input type="text" id="inputTanggalCheckIn" name="tanggal_check_in" class="form-control datetimepicker-input @error('tanggal_check_in') is-invalid @enderror" placeholder="TTTT-BB-HH" value="{{ $usr -> tanggal_check_in }}" required autocomplete="tanggal_check_in" data-target="#reservationdateCheckIn"/>
-                                <div class="input-group-append" data-target="#reservationdateCheckIn" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
+                                <input type="date" id="inputTanggalCheckIn" name="tanggal_check_in" class="form-control datetimepicker-input @error('tanggal_check_in') is-invalid @enderror" placeholder="TTTT-BB-HH" value="{{ $usr -> tanggal_check_in }}" required autocomplete="tanggal_check_in" data-target="#reservationdateCheckIn"/>
                             </div>
                             @error('tanggal_check_in')
                                 <span class="invalid-feedback" role="alert">
@@ -99,10 +96,7 @@
                         <div class="form-group">
                             <label for="inputTanggalCheckOut">Tanggal Check-out</label>
                             <div class="input-group date" id="reservationdateCheckOut" data-target-input="nearest">
-                                <input type="text" id="inputTanggalCheckOut" name="tanggal_check_out" class="form-control datetimepicker-input @error('tanggal_check_out') is-invalid @enderror" placeholder="TTTT-BB-HH" value="{{ $usr -> tanggal_check_out }}" required autocomplete="tanggal_check_out" data-target="#reservationdateCheckOut"/>
-                                <div class="input-group-append" data-target="#reservationdateCheckOut" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
+                                <input type="date" id="inputTanggalCheckOut" name="tanggal_check_out" class="form-control datetimepicker-input @error('tanggal_check_out') is-invalid @enderror" placeholder="TTTT-BB-HH" value="{{ $usr -> tanggal_check_out }}" required autocomplete="tanggal_check_out" data-target="#reservationdateCheckOut"/>
                             </div>
                             @error('tanggal_check_out')
                                 <span class="invalid-feedback" role="alert">

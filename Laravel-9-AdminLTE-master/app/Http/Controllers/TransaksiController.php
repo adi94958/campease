@@ -6,6 +6,7 @@ use App\Models\Transaksi;
 use App\Models\Kavling;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Carbon\Carbon;
 
 class TransaksiController extends Controller
 {
@@ -18,8 +19,8 @@ class TransaksiController extends Controller
     {
         return DataTables::of(Transaksi::query())
             ->addColumn('harga', function (Transaksi $transaksi) {
-                $hargaKavling = $transaksi->kavling->harga;
-                return "Rp " . number_format($hargaKavling, 0, ',', '.');
+                $totalHarga = $this->hitungTotalHarga($transaksi->tanggal_check_in, $transaksi->tanggal_check_out, $transaksi->area_kavling);
+                return "Rp " . number_format($totalHarga, 0, ',', '.');
             })
             ->addColumn('options', function ($transaksi) {
                 $editUrl = route('transaksi.edit', $transaksi->id);
@@ -30,11 +31,20 @@ class TransaksiController extends Controller
             ->make(true);
     }
 
+    private function hitungTotalHarga($tanggalCheckIn, $tanggalCheckOut, $areaKavling)
+    {
+        $hargaKavling = Kavling::where('area_kavling', $areaKavling)->value('harga');
+        $selisihHari = Carbon::parse($tanggalCheckIn)->diffInDays(Carbon::parse($tanggalCheckOut));
+        $totalHarga = ($selisihHari + 1) * $hargaKavling;
+        return $totalHarga;
+    }
+
     public function getHargaByAreaKavling(Request $request)
     {
         $selectedAreaKavling = $request->area_kavling;
-        $harga = Kavling::where('area_kavling', $selectedAreaKavling)->value('harga');
-        return response()->json(['harga' => $harga]);
+        $totalHarga = $this->hitungTotalHarga($request->tanggal_check_in, $request->tanggal_check_out, $selectedAreaKavling);
+
+        return response()->json(['harga' => $totalHarga]);
     }
 
     public function tambahTransaksi(Request $request)
@@ -42,19 +52,22 @@ class TransaksiController extends Controller
         $availableKavlings = Kavling::where('status', 'Available')->get();
 
         if ($request->isMethod('post')) {
+            $totalHarga = $this->hitungTotalHarga($request->tanggal_check_in, $request->tanggal_check_out, $request->area_kavling);
+
             Transaksi::create([
                 'nama_penyewa' => $request->nama_penyewa,
                 'no_handphone' => $request->no_handphone,
                 'area_kavling' => $request->area_kavling,
                 'tanggal_check_in' => $request->tanggal_check_in,
                 'tanggal_check_out' => $request->tanggal_check_out,
+                'harga' => $totalHarga,
             ]);
 
-            Kavling::where('area_kavling', $request->area_kavling)
-                ->update(['status' => 'Booked']);
+            Kavling::where('area_kavling', $request->area_kavling)->update(['status' => 'Booked']);
 
-            return redirect()->route('transaksi.add')->with('status', 'Data transaksi telah ditambahkan');
+            return redirect()->route('transaksi.index')->with('status', 'Data transaksi telah ditambahkan');
         }
+
         return view('page.admin.transaksi.addTransaksi', ['availableKavlings' => $availableKavlings]);
     }
 
@@ -88,17 +101,17 @@ class TransaksiController extends Controller
 
             return redirect()->route('transaksi.edit', ['id' => $usr->id])->with('status', 'Data telah tersimpan di database');
         }
+
         return view('page.admin.transaksi.ubahTransaksi', ['usr' => $usr, 'availableKavlings' => $availableKavlings]);
     }
 
     public function hapusTransaksi($id_transaksi)
     {
         $usr = Transaksi::findOrFail($id_transaksi);
-        $areaKavling = $usr->area_kavling; // Dapatkan area_kavling sebelum dihapus
+        $areaKavling = $usr->area_kavling;
 
         $usr->delete($id_transaksi);
 
-        // Setelah menghapus transaksi, ubah status kavling menjadi "Available"
         Kavling::where('area_kavling', $areaKavling)->update(['status' => 'Available']);
 
         return response()->json([

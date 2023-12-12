@@ -79,16 +79,13 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="inputHarga">Harga</label>
+                            <label for="inputHarga">Harga Kavling per Hari</label>
                             <input type="text" id="inputHarga" name="harga" class="form-control" value="" readonly>
                         </div>
                         <div class="form-group">
                             <label for="inputTanggalCheckIn">Tanggal Check-in</label>
                             <div class="input-group date" id="reservationdateCheckIn" data-target-input="nearest">
                                 <input type="date" id="inputTanggalCheckIn" name="tanggal_check_in" class="form-control datetimepicker-input @error('tanggal_check_in') is-invalid @enderror" placeholder="TTTT-BB-HH" value="{{ old('tanggal_check_in') }}" required autocomplete="tanggal_check_in" data-target="#reservationdateCheckIn" />
-                                <div class="input-group-append" data-target="#reservationdateCheckIn" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
                             </div>
                             @error('tanggal_check_in')
                             <span class="invalid-feedback" role="alert">
@@ -100,9 +97,6 @@
                             <label for="inputTanggalCheckOut">Tanggal Check-out</label>
                             <div class="input-group date" id="reservationdateCheckOut" data-target-input="nearest">
                                 <input type="date" id="inputTanggalCheckOut" name="tanggal_check_out" class="form-control datetimepicker-input @error('tanggal_check_out') is-invalid @enderror" placeholder="TTTT-BB-HH" value="{{ old('tanggal_check_out') }}" required autocomplete="tanggal_check_out" data-target="#reservationdateCheckOut" />
-                                <div class="input-group-append" data-target="#reservationdateCheckOut" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                </div>
                             </div>
                             @error('tanggal_check_out')
                             <span class="invalid-feedback" role="alert">
@@ -140,16 +134,64 @@
                 method: 'POST',
                 data: {
                     _token: "{{ csrf_token() }}",
-                    area_kavling: selectedAreaKavling
+                    area_kavling: selectedAreaKavling,
+                    tanggal_check_in: $('#inputTanggalCheckIn').val(),
+                    tanggal_check_out: $('#inputTanggalCheckOut').val()
                 },
                 success: function(response) {
                     // Update the harga field with the received data
                     $('#inputHarga').val(response.harga);
+
+                    // Calculate total harga based on selisih hari
+                    calculateTotalHarga();
                 },
                 error: function(error) {
                     console.log(error);
                 }
             });
+        });
+
+        // Add a function to calculate total harga based on selisih hari
+        function calculateTotalHarga() {
+            var selisihHari = getSelisihHari();
+            var hargaKavling = parseFloat($('#inputHarga').val().replace(/[^\d.-]/g, '')) || 0; // Remove non-numeric characters
+
+            // Calculate total harga
+            var totalHarga = selisihHari > 0 ? (selisihHari + 1) * hargaKavling : hargaKavling;
+
+            // Update total harga field
+            $('#inputTotalHarga').val(formatRupiah(totalHarga));
+        }
+
+        // Add a function to get selisih hari
+        function getSelisihHari() {
+            var tanggalCheckIn = new Date($('#inputTanggalCheckIn').val());
+            var tanggalCheckOut = new Date($('#inputTanggalCheckOut').val());
+
+            // Calculate selisih hari
+            var selisihHari = Math.floor((tanggalCheckOut - tanggalCheckIn) / (24 * 60 * 60 * 1000));
+
+            return selisihHari;
+        }
+
+        // Add a function to format number as currency (rupiah)
+        function formatRupiah(angka) {
+            var number_string = angka.toString();
+            var sisa = number_string.length % 3;
+            var rupiah = number_string.substr(0, sisa);
+            var ribuan = number_string.substr(sisa).match(/\d{3}/g);
+
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            return 'Rp ' + rupiah;
+        }
+
+        // Add event listener for date input changes
+        $('#inputTanggalCheckIn, #inputTanggalCheckOut').change(function() {
+            calculateTotalHarga();
         });
     });
 </script>

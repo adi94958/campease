@@ -1,4 +1,5 @@
-@extends('layouts.base_admin.base_dashboard')@section('judul', 'List Transaksi')
+@extends('layouts.base_admin.base_dashboard')
+@section('judul', 'List Transaksi')
 @section('script_head')
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -46,7 +47,7 @@
                         <th>Nama Penyewa</th>
                         <th>No. Handphone</th>
                         <th>Area Kavling</th>
-                        <th>Harga</th>
+                        <th>Total Harga</th>
                         <th>Tanggal Check-in</th>
                         <th>Tanggal Check-out</th>
                         <th>Action</th>
@@ -90,7 +91,8 @@
             }, {
                 "data": "tanggal_check_out"
             }, {
-                "data": "options"
+                "data": "options",
+                "orderable": false
             }],
             "language": {
                 "decimal": "",
@@ -123,33 +125,31 @@
             var id = $(this).data("id");
             var url = $(this).data("url");
             console.log(url);
-            Swal
-                .fire({
-                    title: 'Apa kamu yakin?',
-                    text: "Kamu tidak akan dapat mengembalikan ini!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya, hapus!',
-                    cancelButtonText: 'Batal'
-                })
-                .then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            type: 'DELETE',
-                            data: {
-                                "id": id,
-                                "_token": "{{csrf_token()}}"
-                            },
-                            success: function(response) {
-                                Swal.fire('Terhapus!', response.msg, 'success');
-                                $('#previewTransaksi').DataTable().ajax.reload();
-                            }
-                        });
-                    }
-                })
+            Swal.fire({
+                title: 'Apa kamu yakin?',
+                text: "Kamu tidak akan dapat mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        data: {
+                            "id": id,
+                            "_token": "{{csrf_token()}}"
+                        },
+                        success: function(response) {
+                            Swal.fire('Terhapus!', response.msg, 'success');
+                            $('#previewTransaksi').DataTable().ajax.reload();
+                        }
+                    });
+                }
+            });
         });
     });
 </script>
