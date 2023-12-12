@@ -7,6 +7,8 @@ use App\Exports\FeedbackExport;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class FeedbackController extends Controller
 {
@@ -67,6 +69,26 @@ class FeedbackController extends Controller
 
     public function exportExcel()
     {
-        return Excel::download(new FeedbackExport, 'feedback.xlsx');
+        
+        DB::enableQueryLog();
+
+        try {
+            // Mendapatkan jumlah data kavling
+            $count = Feedback::count();
+
+            if ($count == 0) {
+                throw new \Exception('Tidak ada data kavling untuk diexport.');
+            }
+
+            // Perform the export
+            return Excel::download(new FeedbackExport, 'feedback.xlsx');
+        } catch (\Exception $e) {
+            // Handle the exception, you can log it, redirect, or return a response.
+            Log::error($e->getMessage());
+
+            dd(DB::getQueryLog(), $e->getMessage());
+
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }
