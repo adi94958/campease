@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('tanggal_check_in');
             $table->date('tanggal_check_out');
             $table->string('area_kavling');
+            $table->float('harga');
             $table->timestamps();
         });
     }

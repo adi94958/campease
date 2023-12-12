@@ -12,17 +12,16 @@ class Transaksi extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
-
     protected $table = 'data_transaksi';
     protected $fillable = [
-        'id_transaksi',
         'nama_penyewa',
         'no_handphone',
         'tanggal_check_in',
         'tanggal_check_out',
-        'area_kavling'
+        'area_kavling',
+        'harga'
     ];
 
     // Definisikan relasi dengan model Kavling

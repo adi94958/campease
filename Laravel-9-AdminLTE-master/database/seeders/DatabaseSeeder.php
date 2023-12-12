@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FeedbackSeeder::class);
         $this->call(KavlingSeeder::class);
         $this->call(FasilitasSeeder::class);
+        $this->call(TransaksiSeeder::class);
     }
 }
