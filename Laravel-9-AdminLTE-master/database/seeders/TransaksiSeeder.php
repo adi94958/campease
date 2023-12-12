@@ -22,7 +22,7 @@ class TransaksiSeeder extends Seeder
 
         $kavlingNumbers = range(1, 1000);
         $kavlingNumbers = array_map(function ($number) {
-            return sprintf("kavling%04d", $number);
+            return sprintf("Kavling%04d", $number);
         }, $kavlingNumbers);
 
         foreach (range(1, 1000) as $index) {
