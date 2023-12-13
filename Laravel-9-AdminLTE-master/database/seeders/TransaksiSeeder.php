@@ -18,9 +18,6 @@ class TransaksiSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $namaDepan = ['John', 'Jane', 'Bob', 'Alice', 'Charlie', 'Eva', 'David', 'Grace', 'Michael', 'Olivia'];
-        $namaBelakang = ['Doe', 'Smith', 'Johnson', 'Brown', 'Lee', 'Davis', 'Evans', 'White', 'Moore', 'Taylor'];
-
         $kavlingNumbers = range(1, 1000);
         $kavlingNumbers = array_map(function ($number) {
             return sprintf("Kavling%04d", $number);
@@ -41,8 +38,8 @@ class TransaksiSeeder extends Seeder
 
             Transaksi::create([
                 'id' => $index,
-                'nama_penyewa' => $namaDepan[array_rand($namaDepan)] . ' ' . $namaBelakang[array_rand($namaBelakang)],
-                'no_handphone' => '08' . $faker->randomNumber(8),
+                'nama_penyewa' => $faker->name,
+                'no_handphone' => '085' . $faker->randomNumber(9),
                 'tanggal_check_in' => $checkIn,
                 'tanggal_check_out' => $checkOut,
                 'area_kavling' => $kavlingNumbers[$index - 1],

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('data_kavling', function (Blueprint $table) {
             $table->id();
             $table->string('area_kavling')->unique();
-            $table->integer('harga');
+            $table->bigInteger('harga');
             $table->string('status');
             $table->timestamps();
         });
